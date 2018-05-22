@@ -1,0 +1,52 @@
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import utils kivy.utils
+
+<ListItemButton>:
+    deselected_color: 0.925, 0.941, 0.945, 1
+    selected_color: 0.204, 0.596, 0.859, 1
+    on_press: root.parent.parent.parent.parent.parent.parent.change(*args)
+
+<Connected>:
+    canvas.before:
+        Color:
+            rgb: utils.get_color_from_hex('#34495e')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [10,25,10,25]
+        spacing: 5
+
+        BoxLayout:
+            ListView:
+                id: lvContacts
+                size_hint_x: 4
+                halign: 'left'
+
+                adapter:
+                    ListAdapter(data=root.contacts,
+                    selection_mode='single',
+                    allow_empty_selection=False,
+                    cls=ListItemButton)
+
+            TextInput:
+                id: tiChat
+                size_hint_x: 6
+                multiline: True
+
+
+        BoxLayout:
+            TextInput:
+                id: tiMessage
+                size_hint_x: 6
+                focus: True
+                multiline: False
+        BoxLayout:
+            Button:
+                id: btSend
+                font_size: 24
+                text: "Send"
+                on_press: root.send_message()
